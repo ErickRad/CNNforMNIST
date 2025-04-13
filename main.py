@@ -43,8 +43,8 @@ def main():
 
     numeroDeEpocas = 200
     
-    if os.path.exists("util/modelo.pth") and input("Deseja carregar o modelo salvo? (s/n): ").strip().lower() == 's':
-        modelo.load_state_dict(torch.load("util/modelo.pth"))
+    if os.path.exists("util/modelo.pth") and input("Deseja carregar o melhor modelo salvo? (s/n): ").strip().lower() == 's':
+        modelo.load_state_dict(torch.load("util/best.pth"))
         print("\nModelo carregado com sucesso!")
 
     else:
