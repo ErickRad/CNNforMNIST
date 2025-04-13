@@ -50,27 +50,6 @@ def plotar_classificacoes(modelo, dataloader, device):
     print("Gráfico de classificações salvo como classificacoes.png")
 
 def plotar_precisoes(precisoes):
-    labels = [str(i) for i in range(10)]
-    num_classes = len(labels)
-
-    angulos = np.linspace(0, 2 * np.pi, num_classes, endpoint=False).tolist()
-    precisoes += precisoes[:1]
-    angulos += angulos[:1]
-
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-    ax.plot(angulos, precisoes, marker='o', linestyle='-', linewidth=2, color='mediumslateblue')
-    ax.fill(angulos, precisoes, color='mediumpurple', alpha=0.25)
-
-    ax.set_thetagrids(np.degrees(angulos[:-1]), labels)
-    ax.set_ylim(0, 1)
-    ax.set_title("Precisão por Dígito (Radar)", size=14, weight='bold')
-    ax.grid(True, linestyle='--', linewidth=0.5)
-
-    plt.savefig("util/precisao.png")
-    plt.close()
-    print("Radar de precisão salvo como precisao.png")
-
-def plotar_precisoes_achatadas(precisoes):
     rotulos = [str(i) for i in range(10)]
     plt.figure(figsize=(8, 4))
     plt.barh(rotulos, precisoes, color='skyblue')
