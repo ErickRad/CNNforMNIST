@@ -41,14 +41,14 @@ def main():
     funcaoDePerda = nn.CrossEntropyLoss()
     otimizador = optim.Adam(modelo.parameters(), lr=0.00001, weight_decay=1e-5)
 
-    numeroDeEpocas = 100  
+    numeroDeEpocas = 200
     
     if os.path.exists("util/modelo.pth") and input("Deseja carregar o modelo salvo? (s/n): ").strip().lower() == 's':
         modelo.load_state_dict(torch.load("util/modelo.pth"))
         print("\nModelo carregado com sucesso!")
 
     else:
-        print("\nComeçando treinamento ... \n")
+        print("\nPreparando o treinamento ... \n")
         perdas_treino = []
         perdas_teste = []
         
@@ -65,7 +65,6 @@ def main():
         torch.save(modelo.state_dict(), "util/modelo.pth")
         print("Modelo salvo como modelo.pth")
 
-    # Avaliação final + radar de precisão
     _, acuracia_final, precisoes = avaliar(modelo, carregadorDeTeste, funcaoDePerda, device)
     print(f"Acurácia final: {acuracia_final:.2%}")
     plotar_precisoes(precisoes)
