@@ -11,7 +11,6 @@ import os
 
 def carregar_dataset():
     transformacao = transforms.Compose([
-        transforms.RandomRotation(10),
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
     ])
@@ -43,15 +42,12 @@ def main():
 
     numeroDeEpocas = 200
     
-    if (os.path.exists("util/melhor.pth") or os.path.exists("util/atual.pth")) and input("Deseja carregar algum modelo salvo? (s/n): ").strip().lower() == 's':
+    if os.path.exists("util/modelo.pth") and input("Deseja carregar o modelo salvo? (s/n): ").strip().lower() == 's':
 
-        if input("Melhor ou atual? (m/a):").strip().lower() == "m":
-            modelo.load_state_dict(torch.load("util/melhor.pth"))
-            print("\nModelo melhor carregado com sucesso!")
+        
+            modelo.load_state_dict(torch.load("util/modelo.pth"))
+            print("\nModelo carregado com sucesso!")
 
-        else:
-            modelo.load_state_dict(torch.load("util/atual.pth"))
-            print("\nModelo atual carregado com sucesso!")
 
     else:
         print("\nPreparando o treinamento ... \n")
@@ -68,8 +64,8 @@ def main():
             print(f"Época {epoca + 1}/{numeroDeEpocas} - Perda treino: {perda_epoca[-1]:.4f}, Perda teste: {perda_teste:.4f}, Acurácia: {acuracia:.2%}")
 
         plotar_perdas(perdas_treino, perdas_teste, numeroDeEpocas)
-        torch.save(modelo.state_dict(), "util/atual.pth")
-        print("Modelo salvo como atual.pth")
+        torch.save(modelo.state_dict(), "util/modelo.pth")
+        print("Modelo salvo como modelo.pth")
 
     _, acuracia_final, precisoes = avaliar(modelo, carregadorDeTeste, funcaoDePerda, device)
     print(f"Acurácia final: {acuracia_final:.2%}")
