@@ -38,16 +38,13 @@ def main():
     carregadorDeTreino, carregadorDeTeste = carregar_dataset()
     modelo = CNN().to(device)
     funcaoDePerda = nn.CrossEntropyLoss()
-    otimizador = optim.Adam(modelo.parameters(), lr=0.00001, weight_decay=1e-5)
+    otimizador = optim.Adam(modelo.parameters(), lr=0.000001, weight_decay=1e-5)
 
-    numeroDeEpocas = 200
+    numeroDeEpocas = 500
     
     if os.path.exists("util/modelo.pth") and input("Deseja carregar o modelo salvo? (s/n): ").strip().lower() == 's':
-
-        
-            modelo.load_state_dict(torch.load("util/modelo.pth"))
-            print("\nModelo carregado com sucesso!")
-
+        modelo.load_state_dict(torch.load("util/modelo.pth"))
+        print("\nModelo carregado com sucesso!")
 
     else:
         print("\nPreparando o treinamento ... \n")
