@@ -1,10 +1,14 @@
 import torch
 import torch.nn as nn
+import torch.quantization
 
 class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
-        
+
+        self.quant = torch.quantization.QuantStub()
+        self.dequant = torch.quantization.DeQuantStub()
+
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
@@ -13,6 +17,8 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(128, 10)
 
     def forward(self, x):
+        x = self.quant(x)
+
         x = torch.relu(self.conv1(x))
         x = torch.max_pool2d(x, 2)
 
@@ -24,5 +30,9 @@ class CNN(nn.Module):
 
         x = torch.flatten(x, 1)
 
-        return self.fc2(torch.relu(self.fc1(x)))
-        
+        x = self.fc1(x)
+        x = torch.relu(x)
+        x = self.fc2(x)
+
+        x = self.dequant(x)
+        return x
