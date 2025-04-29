@@ -25,10 +25,6 @@ Flatten
 [ReLU]
 [Linear] -> 10 classes (0 a 9)
 
-markdown
-Copy
-Edit
-
 ## 📦 Requisitos
 
 - Python 3.8+
